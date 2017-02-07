@@ -12,16 +12,16 @@ then I came across the <a href="http://nook.do/">Nook</a>. I thought, that's a g
 As I have already started the partition wall in my garage, I just needed to do the other two sides and a roof, and then I would have my very own custom designed Nook.
 
 First I needed to set some requirements. it would need:
-	* Designed for a single person
-	* Somewhere I can do software development and writing in a nice quiet, comfortable environment
-	* to Fit 2 x 51 cm wide Monitors side by side
-	* Power sockets
-	* Ethernet Switch (for wired internet)
-	* Wifi (for my android devices)
-	* room for my Swivel Chair
+  * Designed for a single person
+  * Somewhere I can do software development and writing in a nice quiet, comfortable environment
+  * to Fit 2 x 51 cm wide Monitors side by side
+  * Power sockets
+  * Ethernet Switch (for wired internet)
+  * Wifi (for my android devices)
+  * room for my Swivel Chair
 
 I then measured my current desk
-	* desk is 72 cm high
-	* Desk to monitor is 20cm
+  * desk is 72 cm high
+  * Desk to monitor is 20cm
 
 
