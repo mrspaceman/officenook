@@ -22,8 +22,4 @@ First I needed to set some requirements. it would need:
   * Wifi (for my android devices)
   * room for my Swivel Chair
 
-I then measured my current desk
-  * desk is 72 cm high
-  * Desk to monitor is 20cm
-
-
+I decided that as I was heating the interior of my nook, I would put my PC's outside on shelves so that they would remain cooler. I may change this as the heat they generate may be useful for heating the nook.
