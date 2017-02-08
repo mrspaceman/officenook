@@ -3,7 +3,7 @@ echo(version=version());
 use <./Write.scad>
 
 showExploded=0;
-showSkins=1;
+showSkins=0;
 
 skinWidth=6;
 bottomSkinWidth=18;
@@ -43,25 +43,19 @@ module addBase() {
         translate([0 , nookWidth-(battenWidth) , 0])
             cube([nookLength , battenWidth , battenDepth]);
 
-    color(battenColour)
-        translate([0 , battenWidth , 0])
+    nbrBattens=5;
+    battenSpacing=(nookLength-battenWidth)/nbrBattens;
+    for (a = [0:5]){
+      color(battenColour)
+        translate([battenSpacing*a , battenWidth , 0])
             cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
-    color(battenColour)
-        translate([nookLength-battenWidth , battenWidth , 0])
-            cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
-    color(battenColour)
-        translate([(nookLength/4)-(battenWidth/2) , battenWidth , 0])
-            cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
-    color(battenColour)
-        translate([(nookLength/2)-(battenWidth/2) , battenWidth , 0])
-            cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
-    color(battenColour)
-        translate([nookLength-(nookLength/4)-(battenWidth/2) , battenWidth , 0])
-            cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
+    }
 
     if (showSkins==1)
+    {
         translate([0 , 0 , battenDepth])
             cube([nookLength , nookWidth , bottomSkinWidth]);
+    }
 }
 
 
@@ -84,7 +78,7 @@ module addFront() {
 }
 
 
-module addSide() {
+module addFrontSide() {
     color(battenColour)
         translate([nookLength-battenWidth , 0 , sideBottom])
             cube([battenWidth , battenDepth , nookHeight]);
@@ -95,74 +89,108 @@ module addSide() {
         translate([nookLength-battenWidth , (nookWidth/2)-(battenDepth/2) , sideBottom+battenDepth])
             cube([battenWidth , battenDepth , nookHeight-(battenDepth*2)]);
 
-    color(battenColour) // top
-        translate([nookLength-battenWidth , battenDepth , nookHeight+18])
+    nbrBattens=5;
+    battenSpacing=(nookHeight-battenDepth)/nbrBattens;
+    for (a = [0:5]){
+      color(battenColour)
+          //  echo(batten_height=sideBottom+(battenSpacing*a))
+        translate([nookLength-battenWidth , battenDepth , sideBottom+(battenSpacing*a)])
             cube([battenWidth , nookWidth-(battenDepth*2) , battenDepth]);
-    color(battenColour) // bottom
-        translate([nookLength-battenWidth , battenDepth , sideBottom])
-            cube([battenWidth , nookWidth-(battenDepth*2) , battenDepth]);
-    color(battenColour)
-        translate([nookLength-battenWidth , battenDepth , nookHeight/4])
-            cube([battenWidth , nookWidth-(battenDepth*2) , battenDepth]);
-    color(battenColour)
-        translate([nookLength-battenWidth , battenDepth , nookHeight/2])
-            cube([battenWidth , nookWidth-(battenDepth*2) , battenDepth]);
-    color(battenColour)
-        translate([nookLength-battenWidth , battenDepth , nookHeight-(nookHeight/4)])
-            cube([battenWidth , nookWidth-(battenDepth*2) , battenDepth]);
+    }
 
     if (showSkins==1) {
-        // outside
-        translate([nookLength , 0 , 0])
-            cube([skinWidth , nookWidth , nookHeight+sideBottom+battenDepth+skinWidth*2]);
-        
+    // Cable Cutout
+            translate([nookLength-battenWidth-(skinWidth*2)-5 , (nookWidth/2)+80 , 1000])
+                rotate([90, 0, 90]) color("red")
+                    hollowCylinder(d=75, h=85, wallWidth=3);
+            {
+            // outside
+            translate([nookLength , 0 , 0])
+                cube([skinWidth , nookWidth , nookHeight+sideBottom+battenDepth+skinWidth*2]);
+
+            // inside
+            translate([nookLength-battenWidth-skinWidth , 0 , sideBottom])
+                cube([skinWidth , nookWidth , nookHeight]);
+            }
+    }
+}
+module addBackSide() {
+    color(battenColour)
+        translate([0 , 0 , sideBottom])
+            cube([battenWidth , battenDepth , nookHeight]);
+    color(battenColour)
+        translate([0 , nookWidth-battenDepth , sideBottom])
+            cube([battenWidth , battenDepth , nookHeight]);
+    color(battenColour)
+        translate([0 , (nookWidth/2)-(battenDepth/2) , sideBottom+battenDepth])
+            cube([battenWidth , battenDepth , nookHeight-(battenDepth*2)]);
+
+    nbrBattens=5;
+    battenSpacing=(nookHeight-battenDepth)/nbrBattens;
+    for (a = [0:5]){
+      color(battenColour)
+          //  echo(batten_height=sideBottom+(battenSpacing*a))
+        translate([0 , battenDepth , sideBottom+(battenSpacing*a)])
+            cube([battenWidth , nookWidth-(battenDepth*2) , battenDepth]);
+    }
+    
+   if (showSkins==1) {
         // inside
-        translate([nookLength-battenWidth-skinWidth , 0 , sideBottom])
+        translate([battenWidth-skinWidth , 0 , sideBottom])
             cube([skinWidth , nookWidth , nookHeight]);
     }
 }
-module addSideExistingPartition() {
-   if (showSkins==1) {
-        translate([0-skinWidth , 0 , 0])
-            cube([skinWidth , nookWidth , nookHeight+sideBottom+battenDepth+skinWidth*2]);       
+module addBack(){
+    color(battenColour)
+        translate([0 , nookWidth+skinWidth , 0])
+            cube([battenWidth , battenDepth , nookHeight+sideBottom-skinWidth]);
+
+    color(battenColour)
+        translate([nookLength-battenWidth , nookWidth+skinWidth , 0])
+            cube([battenWidth , battenDepth , nookHeight+sideBottom-skinWidth]);
+
+    color(battenColour)
+        translate([nookLength/2 , nookWidth+skinWidth , 0])
+            cube([battenWidth , battenDepth , nookHeight+sideBottom-skinWidth]);
+
+    nbrBattens=5;
+    battenSpacing=(nookHeight-skinWidth*2)/nbrBattens;
+    for (a = [0:5]){
+      color(battenColour)
+          //  echo(batten_height=sideBottom+(battenSpacing*a))
+        translate([battenWidth , nookWidth+skinWidth , battenSpacing*a])
+            cube([nookLength-battenWidth-skinWidth , battenDepth , battenWidth]);
     }
-}
-module showSideExistingWall(){ 
+
     if (showSkins==1) {
-        translate([0-200 , nookWidth , 0])
-            cube([nookLength+(500) , skinWidth , nookHeight+250]);
+        translate([0 , nookWidth , 0])
+            cube([nookLength , skinWidth , nookHeight+sideBottom]);
     }
 }
 
 
-module addRoof() { 
-color("blue")
-    translate([0 , 0 , roofBottom-battenDepth-skinWidth])
-        cube([battenWidth , nookWidth , battenDepth]);
-
-color(battenColour)
-    translate([nookLength-battenWidth , battenWidth , roofBottom])
-        cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
-color(battenColour)
-    translate([0 , battenWidth , roofBottom])
-        cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
-color(battenColour)
-    translate([(nookLength/2)-(battenWidth/2) , battenWidth , roofBottom])
-        cube([battenWidth , nookWidth-(battenWidth*2) , battenDepth]);
-
+module addRoof() {
 color(battenColour)
     translate([0 , 0 , roofBottom])
         cube([nookLength , battenWidth , battenDepth]);
 color(battenColour)
-    translate([0 , nookWidth-battenWidth , roofBottom])
+    translate([0 , nookWidth-(battenWidth-battenDepth)+skinWidth , roofBottom])
         cube([nookLength , battenWidth , battenDepth]);
+    
+    nbrBattens=4;
+    battenSpacing=(nookLength-battenWidth)/nbrBattens;
+    for (a = [0:5]){
+      color(battenColour)
+    translate([battenSpacing*a , battenWidth , roofBottom])
+        cube([battenWidth , nookWidth-(battenWidth) , battenDepth]);
+    }
 
     if (showSkins==1) {
     //roof
     translate([0 , 0 , roofBottom-skinWidth])
-        cube([nookLength , nookWidth , skinWidth]);
+        cube([nookLength , nookWidth+battenDepth+skinWidth , skinWidth]);
     translate([0 , 0 , roofBottom+battenDepth])
-        cube([nookLength , nookWidth , skinWidth]);
+        cube([nookLength , nookWidth+battenDepth+skinWidth , skinWidth]);
     }
 }
 
@@ -176,17 +204,11 @@ module addDesk() {
     color(skinColour)
         translate([(nookLength/2)-skinWidth , skinWidth+battenDepth , 720+battenWidth+bottomSkinWidth])
             cube([(nookLength/2)-(battenWidth) , nookWidth-(skinWidth+battenDepth) , deskThickness]);
-    
-    // Cable Cutout
-    
- //   translate([nookLength-battenWidth-(skinWidth*2)-5 , (nookWidth/2)+80 , 1000])
-//        rotate([90, 0, 90]) color("red")
-//            hollowCylinder(d=75, h=85, wallWidth=3);       
 }
 
 module addPcShelf(pcNbr) {
     translate([nookLength+battenDepth*3 , battenDepth+10 , 600*pcNbr+deskThickness])
-      scale([14 , 14 , 4]) 
+      scale([14 , 14 , 4])
         rotate(a=[0 , 0 , 90])
         color(textColour)
             write("PC Shelf" , t=2 , h=6 , center=false);
@@ -200,11 +222,10 @@ module addPcShelf(pcNbr) {
 addBase();
 addFront();
 addRoof();
-addSide();
-addSideExistingPartition();
-showSideExistingWall();
+addFrontSide();
+addBackSide();
+addBack();
 
 addDesk();
 addPcShelf(1);
 addPcShelf(2);
-
