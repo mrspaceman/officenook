@@ -1,4 +1,4 @@
-Design inspired by the <a href="http://nook.do/">Nook</a>.
+Design inspired by the <a href="https://www.msl-interiors.co.uk/products/office/meeting-pods-and-panels/nook-pod/">Nook</a>.
 
 Created in <a href="http://www.openscad.org/">OpenSCAD</a>.
 
